@@ -2,33 +2,34 @@
 using System;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace OpenDMX.NET
 {
-    public class OpenDMX : IDisposable
+    public class DmxController : IDisposable
     {
         public bool IsOpen { get => handle != IntPtr.Zero; }
-        public int Interval { get; private set; } = 22; // 44 Hz
+        public int Delay { get; private set; } = 0;
+        public volatile bool IsDisposed;
 
         private byte[] buffer = new byte[513];
         private IntPtr handle = IntPtr.Zero;
         private Status status;
-        private Timer timer;
 
         /// <summary>
         /// Creates a new OpenDMX instance.
         /// </summary>
-        public OpenDMX()
+        public DmxController()
         {
         }
 
         /// <summary>
-        /// Creates a new OpenDMX instance with a given write interval.
+        /// Creates a new OpenDMX instance with a given delay between packet.
         /// </summary>
-        /// <param name="interval">Write interval in milliseconds (Recommended: 22)</param>
-        public OpenDMX(int interval)
+        /// <param name="delay">Delay between data packets in milliseconds (Fastest: 0)</param>
+        public DmxController(int delay)
         {
-            Interval = interval;
+            Delay = delay;
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace OpenDMX.NET
 
             ClearBuffer();
 
-            timer = new Timer(OnTimer, null, 0, Interval);
+            Task.Run(OnTimer);
         }
 
         /// <summary>
@@ -125,9 +126,13 @@ namespace OpenDMX.NET
             return devices;
         }
 
-        private void OnTimer(object state)
+        private async void OnTimer()
         {
-            WriteBuffer();
+            while (!IsDisposed)
+            {
+                WriteBuffer();
+                await Task.Delay(Delay);
+            }
         }
 
         private void WriteBuffer()
@@ -154,10 +159,7 @@ namespace OpenDMX.NET
 
         public void Dispose()
         {
-            if (timer != null)
-            {
-                timer.Dispose();
-            }
+            IsDisposed = true;
 
             if (IsOpen)
             {

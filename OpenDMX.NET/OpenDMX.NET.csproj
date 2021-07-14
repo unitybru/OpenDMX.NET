@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/wberdowski/OpenDMX.NET</RepositoryUrl>
+    <Copyright>© 2021 Wojciech Berdowski</Copyright>
+    <PackageTags>dmx;opendmx;lighting</PackageTags>
+    <Description>Library for communication with devices in OpenDMX standard.</Description>
+    <Authors>wberdowski</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
 </Project>

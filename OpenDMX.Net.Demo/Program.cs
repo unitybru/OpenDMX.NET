@@ -8,7 +8,7 @@ namespace OpenDMX.NET.Demo
     {
         private static void Main(string[] args)
         {
-            using (var dmx = new OpenDMX())
+            using (var dmx = new DmxController())
             {
                 var devices = dmx.GetDevices();
                 Console.WriteLine($"Detected devices ({devices.Length}): ");

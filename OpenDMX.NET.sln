@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31320.298
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDMX.NET", "OpenDMX.NET\OpenDMX.NET.csproj", "{974B51E4-2554-4078-AD06-574E662F853D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDMX.Net.Demo", "OpenDMX.Net.Demo\OpenDMX.Net.Demo.csproj", "{8CAE948D-5549-49BA-BA01-D47A18523631}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{974B51E4-2554-4078-AD06-574E662F853D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{974B51E4-2554-4078-AD06-574E662F853D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{974B51E4-2554-4078-AD06-574E662F853D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{974B51E4-2554-4078-AD06-574E662F853D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CAE948D-5549-49BA-BA01-D47A18523631}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CAE948D-5549-49BA-BA01-D47A18523631}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CAE948D-5549-49BA-BA01-D47A18523631}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CAE948D-5549-49BA-BA01-D47A18523631}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9DB3FE2C-651C-437A-ADB7-5F49353B1522}
+	EndGlobalSection
+EndGlobal

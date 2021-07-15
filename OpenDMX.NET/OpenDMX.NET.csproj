@@ -10,6 +10,8 @@
     <Description>Library for communication with devices in OpenDMX standard.</Description>
     <Authors>wberdowski</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <AssemblyVersion></AssemblyVersion>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
 </Project>

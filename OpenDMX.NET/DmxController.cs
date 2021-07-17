@@ -10,12 +10,12 @@ namespace OpenDMX.NET
         public bool IsOpen { get => handle != IntPtr.Zero; }
         public int Delay { get; private set; } = 0;
         public volatile bool IsDisposed;
+        public event EventHandler BeforeDataWrite;
+        public event EventHandler AfterDataWrite;
 
         private byte[] buffer = new byte[513];
         private IntPtr handle = IntPtr.Zero;
         private Status status;
-        private event EventHandler BeforeDataWrite;
-        private event EventHandler AfterDataWrite;
 
         /// <summary>
         /// Creates a new OpenDMX instance.

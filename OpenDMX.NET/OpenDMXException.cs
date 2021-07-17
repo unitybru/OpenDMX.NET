@@ -1,11 +1,15 @@
-﻿using System;
+﻿using OpenDMX.NET.FTDI;
+using System;
 
 namespace OpenDMX.NET
 {
-    internal class OpenDMXException : Exception
+    public class OpenDMXException : Exception
     {
-        public OpenDMXException(string message) : base(message)
+        public Status Status { get; private set; }
+
+        public OpenDMXException(string message, Status status) : base(message)
         {
+            Status = status;
         }
     }
 }

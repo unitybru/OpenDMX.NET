@@ -14,6 +14,8 @@ namespace OpenDMX.NET
         private byte[] buffer = new byte[513];
         private IntPtr handle = IntPtr.Zero;
         private Status status;
+        private event EventHandler BeforeDataWrite;
+        private event EventHandler AfterDataWrite;
 
         /// <summary>
         /// Creates a new OpenDMX instance.
@@ -46,7 +48,7 @@ namespace OpenDMX.NET
 
             if (status != Status.Ok)
             {
-                throw new OpenDMXException("Device could not be initialized. " + status);
+                throw new OpenDMXException("Device could not be initialized.", status);
             }
 
             ClearBuffer();
@@ -87,7 +89,7 @@ namespace OpenDMX.NET
             status = FTD2XX.CreateDeviceInfoList(ref count);
             if (status != Status.Ok)
             {
-                throw new OpenDMXException("Could not get devices count. " + status);
+                throw new OpenDMXException("Could not get devices count.", status);
             }
 
             var devices = new Device[count];
@@ -101,7 +103,7 @@ namespace OpenDMX.NET
                 status = FTD2XX.GetDeviceInfoDetail(i, ref devices[i].Flags, ref devices[i].Type, ref devices[i].ID, ref devices[i].LocId, serial, description, ref devices[i].ftHandle);
                 if (status != Status.Ok)
                 {
-                    throw new OpenDMXException("Could not get device info. " + status);
+                    throw new OpenDMXException("Could not get device info.", status);
                 }
 
                 devices[i].DeviceIndex = i;
@@ -119,7 +121,7 @@ namespace OpenDMX.NET
 
             if (status != Status.Ok)
             {
-                throw new OpenDMXException("Could not get devices list. " + status);
+                throw new OpenDMXException("Could not get devices list.", status);
             }
 
             return devices;
@@ -129,7 +131,9 @@ namespace OpenDMX.NET
         {
             while (!IsDisposed)
             {
+                BeforeDataWrite?.Invoke(this, null);
                 WriteBuffer();
+                AfterDataWrite?.Invoke(this, null);
                 await Task.Delay(Delay);
             }
         }
@@ -146,7 +150,7 @@ namespace OpenDMX.NET
 
             if (status != Status.Ok)
             {
-                throw new OpenDMXException("Data write error. " + status);
+                throw new OpenDMXException("Data write error.", status);
             }
         }
 

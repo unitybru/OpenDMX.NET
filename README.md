@@ -1,5 +1,5 @@
 # OpenDMX.NET
-Library for communicating with devices in OpenDMX standard.
+### Simple and easy-to-use library that allows you to communicate with  OpenDMX USB interfaces.
 
 ![stage light](https://i.imgur.com/lZ4cffK.jpg)
 # NuGet package

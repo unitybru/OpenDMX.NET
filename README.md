@@ -2,6 +2,9 @@
 ### Simple and easy-to-use library that allows you to communicate with  OpenDMX USB interfaces.
 
 ![stage light](https://i.imgur.com/lZ4cffK.jpg)
+# Installation
+1. Download and install drivers from http://www.ftdichip.com/Drivers/CDM/CDM21218_Setup.zip
+2. Install NuGet package (https://www.nuget.org/packages/OpenDMX.NET/) or clone this repository and add it to your project references.
 # NuGet package
 https://www.nuget.org/packages/OpenDMX.NET/
 # Example usage

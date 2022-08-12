@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using ColorPicker.Models;
 using OpenDMX.NET;
 
@@ -25,10 +15,18 @@ namespace WPF_DMX
     public partial class MainWindow : Window
     {
         DmxController dmx;
+
+        Socket artnetSocket;
         
         public MainWindow()
         {
             InitializeComponent();
+            InitializeDMX();
+            InitializeArtNet();
+        }
+
+        void InitializeDMX()
+        {
             dmx = new DmxController();
             var devices = dmx.GetDevices();
             Console.WriteLine($"Detected devices ({devices.Length}): ");
@@ -45,27 +43,41 @@ namespace WPF_DMX
             }
         }
 
+        void InitializeArtNet()
+        {
+            artnetSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            artnetSocket.Connect(IPAddress.Parse("127.0.0.1"), 6454);
+        }
+
+        /// <summary>
+        /// Send DMX and Art-Net data
+        /// </summary>
+        /// <param name="Dimmer"></param>
+        /// <param name="R"></param>
+        /// <param name="G"></param>
+        /// <param name="B"></param>
         public void SendData(byte Dimmer, byte R, byte G, byte B)
         {
-            // Set RGB channels 
-            dmx.SetChannels(1, new byte[] { Dimmer, R, G, B, 0 });
-            Thread.Sleep(1000);
+            var byteData = new byte[] { Dimmer, R, G, B, 0 };
+            
+            // Send DMX via serial data
+            dmx.SetChannels(1, byteData);
+            
+            // Send Art-Net data via UDP socket
+            byte[] data = { 65, 114, 116, 45, 78, 101, 116, 0, 0, 80, 0, 14, 0, 0, 0, 0, 0, 3, R, G, B };
+            artnetSocket.Send(data);
         }
 
         void PickerControlBase_OnColorChanged(object sender, RoutedEventArgs e)
         {
-            
             Thread thread1 = new Thread(SendDataAsync);
             thread1.Start(e as ColorRoutedEventArgs);
-            
-            //var colorArgs = e as ColorRoutedEventArgs;
-            //SendData((byte)colorArgs.Color.A, (byte)colorArgs.Color.R, (byte)colorArgs.Color.G, (byte)colorArgs.Color.B);
         }
 
         void SendDataAsync(object obj)
         {
             var colorArgs = obj as ColorRoutedEventArgs;
-            SendData((byte)colorArgs.Color.A, (byte)colorArgs.Color.R, (byte)colorArgs.Color.G, (byte)colorArgs.Color.B);
+            SendData(colorArgs.Color.A, colorArgs.Color.R, colorArgs.Color.G, colorArgs.Color.B);
         }
     }
 }

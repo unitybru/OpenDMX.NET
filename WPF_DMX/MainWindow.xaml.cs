@@ -64,7 +64,7 @@ namespace WPF_DMX
             dmx.SetChannels(1, byteData);
             
             // Send Art-Net data via UDP socket
-            byte[] data = { 65, 114, 116, 45, 78, 101, 116, 0, 0, 80, 0, 14, 0, 0, 0, 0, 0, 3, R, G, B };
+            byte[] data = { 65, 114, 116, 45, 78, 101, 116, 0, 0, 80, 0, 14, 0, 0, 0, 0, 0, 4, R, G, B, Dimmer };
             artnetSocket.Send(data);
         }
 
